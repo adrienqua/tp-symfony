@@ -23,18 +23,18 @@ class Comment
     #[ORM\Column(enumType: CommentStatusEnum::class)]
     private ?CommentStatusEnum $status = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'commentsList')]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'commentsChilds')]
     private ?self $parentCommentId = null;
 
     /**
      * @var Collection<int, self>
      */
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentCommentId')]
-    private Collection $commentsList;
+    private Collection $commentsChilds;
 
     public function __construct()
     {
-        $this->commentsList = new ArrayCollection();
+        $this->commentsChilds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,27 +81,27 @@ class Comment
     /**
      * @return Collection<int, self>
      */
-    public function getCommentsList(): Collection
+    public function getCommentsChilds(): Collection
     {
-        return $this->commentsList;
+        return $this->commentsChilds;
     }
 
-    public function addCommentsList(self $commentsList): static
+    public function addCommentsChilds(self $commentsChilds): static
     {
-        if (!$this->commentsList->contains($commentsList)) {
-            $this->commentsList->add($commentsList);
-            $commentsList->setParentCommentId($this);
+        if (!$this->commentsChilds->contains($commentsChilds)) {
+            $this->commentsChilds->add($commentsChilds);
+            $commentsChilds->setParentCommentId($this);
         }
 
         return $this;
     }
 
-    public function removeCommentsList(self $commentsList): static
+    public function removeCommentsChilds(self $commentsChilds): static
     {
-        if ($this->commentsList->removeElement($commentsList)) {
+        if ($this->commentsChilds->removeElement($commentsChilds)) {
             // set the owning side to null (unless already changed)
-            if ($commentsList->getParentCommentId() === $this) {
-                $commentsList->setParentCommentId(null);
+            if ($commentsChilds->getParentCommentId() === $this) {
+                $commentsChilds->setParentCommentId(null);
             }
         }
 

@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use App\Enum\MediaStatusEnum;
 use App\Repository\MediaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
+#[ORM\DiscriminatorMap(['movie' => 'Movie', 'serie' => 'Serie'])]
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {
@@ -14,9 +19,6 @@ class Media
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(enumType: MediaStatusEnum::class)]
-    private ?MediaStatusEnum $mediaType = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -28,7 +30,7 @@ class Media
     private ?string $longDescription = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $releaseDate = null;
+    private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $coverImage = null;
@@ -39,21 +41,41 @@ class Media
     #[ORM\Column]
     private array $casting = [];
 
+    /**
+     * @var Collection<int, Language>
+     */
+    #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'medias')]
+    private Collection $languages;
+
+    /**
+     * @var Collection<int, PlaylistMedia>
+     */
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'mediaId')]
+    private Collection $playlists;
+
+    /**
+     * @var Collection<int, WatchHistory>
+     */
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'mediaId')]
+    private Collection $watchHistories;
+
+    /**
+     * @var Collection<int, Category>
+     */
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'medias')]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->languages = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
+        $this->watchHistories = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMediaType(): ?MediaStatusEnum
-    {
-        return $this->mediaType;
-    }
-
-    public function setMediaType(MediaStatusEnum $mediaType): static
-    {
-        $this->mediaType = $mediaType;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -92,12 +114,12 @@ class Media
         return $this;
     }
 
-    public function getReleaseDate(): ?\DateTimeImmutable
+    public function getReleaseDate(): ?\DateTimeInterface
     {
         return $this->releaseDate;
     }
 
-    public function setReleaseDate(\DateTimeImmutable $releaseDate): static
+    public function setReleaseDate(\DateTimeInterface $releaseDate): static
     {
         $this->releaseDate = $releaseDate;
 
@@ -139,4 +161,113 @@ class Media
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): static
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): static
+    {
+        $this->languages->removeElement($language);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlaylistMedia>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(PlaylistMedia $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->setMediaId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(PlaylistMedia $playlist): static
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getMediaId() === $this) {
+                $playlist->setMediaId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WatchHistory>
+     */
+    public function getWatchHistories(): Collection
+    {
+        return $this->watchHistories;
+    }
+
+    public function addWatchHistory(WatchHistory $watchHistory): static
+    {
+        if (!$this->watchHistories->contains($watchHistory)) {
+            $this->watchHistories->add($watchHistory);
+            $watchHistory->setMediaId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatchHistory(WatchHistory $watchHistory): static
+    {
+        if ($this->watchHistories->removeElement($watchHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($watchHistory->getMediaId() === $this) {
+                $watchHistory->setMediaId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
 }
