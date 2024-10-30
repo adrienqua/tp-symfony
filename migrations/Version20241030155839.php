@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241027234010 extends AbstractMigration
+final class Version20241030155839 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,12 @@ final class Version20241027234010 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE comment ADD media_id_id INT NOT NULL');
-        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C605D5AE6 FOREIGN KEY (media_id_id) REFERENCES media (id)');
-        $this->addSql('CREATE INDEX IDX_9474526C605D5AE6 ON comment (media_id_id)');
+        $this->addSql('ALTER TABLE media CHANGE release_date release_date DATETIME NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C605D5AE6');
-        $this->addSql('DROP INDEX IDX_9474526C605D5AE6 ON comment');
-        $this->addSql('ALTER TABLE comment DROP media_id_id');
+        $this->addSql('ALTER TABLE media CHANGE release_date release_date VARCHAR(255) NOT NULL');
     }
 }
