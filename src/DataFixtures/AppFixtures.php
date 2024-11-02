@@ -11,6 +11,7 @@ use App\Entity\Subscription;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
     public const MAX_SUBSCRIPTIONS = 3;
     public const MAX_MEDIA = 100;
     public const MAX_MEDIA_PER_PLAYLIST = 3;
+
 
     public function load(ObjectManager $manager): void
     {
@@ -105,10 +107,12 @@ class AppFixtures extends Fixture
 
     protected function createUser(int $i, ObjectManager $manager): User
     {
+        $faker = Factory::create();
+
         $user = new User();
-        $user->setEmail(email: "test_{$i}@example.com");
-        $user->setUsername(username: "test_{$i}");
-        $user->setPassword(password: 'coucou');
+        $user->setEmail(email: $faker->email);
+        $user->setUsername(username: $faker->userName);
+        $user->setPassword(password: $faker->password);
         $manager->persist(object: $user);
 
         return $user;

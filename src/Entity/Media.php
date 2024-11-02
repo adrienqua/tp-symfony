@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
-#[ORM\DiscriminatorMap(['movie' => 'Movie', 'serie' => 'Serie'])]
+#[DiscriminatorMap(['serie' => Serie::class, 'movie' => Movie::class])]
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {
@@ -45,7 +45,7 @@ class Media
      * @var Collection<int, Language>
      */
     #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'medias')]
-    private Collection $languages;
+    private Collection $languages; 
 
     /**
      * @var Collection<int, PlaylistMedia>

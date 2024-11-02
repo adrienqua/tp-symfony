@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241030155839 extends AbstractMigration
+final class Version20241102140829 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20241030155839 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE media CHANGE release_date release_date DATETIME NOT NULL');
+        $this->addSql('ALTER TABLE media CHANGE discr discr VARCHAR(255) DEFAULT \'movie\' NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE media CHANGE release_date release_date VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE media CHANGE discr discr VARCHAR(255) NOT NULL');
     }
 }
