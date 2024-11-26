@@ -1,33 +1,34 @@
 App\Entity\Media:
-    media (template):
-        title: "Media <current()>"
-        shortDescription: "short description"
-        longDescription: "<realText()>"
-        releaseDate: "<datetime()>"
-        coverImage: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
+  media (template):
+    title: "Media <current()>"
+    shortDescription: "short description"
+    longDescription: "<realText()>"
+    releaseDate: "<datetime()>"
+    coverImage: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
+    categories: ["@category_<randomElement(['adventure', 'comedy', 'action'])>"]
 
 App\Entity\Movie:
-    media_movie_{1..50} (extends media):
-        title: "Movie <current()>"
+  media_movie_{1..50} (extends media):
+    title: "Movie <current()>"
 
 App\Entity\Serie:
-    media_serie_{1..50} (extends media):
-        title: "Serie <current()>"
+  media_serie_{1..50} (extends media):
+    title: "Serie <current()>"
 
 App\Entity\Season:
-    season_1_{@media_serie*}:
-        seasonNumber: "<numberBetween(1, 10)>"
-        serieId: "<current()>"
-    season_2_{@media_serie*}:
-        seasonNumber: "<numberBetween(1, 10)>"
-        serieId: "<current()>"
-    season_3_{@media_serie*}:
-        seasonNumber: "<numberBetween(1, 10)>"
-        serieId: "<current()>"
+  season_1_{@media_serie*}:
+    seasonNumber: "<numberBetween(1, 10)>"
+    serieId: "<current()>"
+  season_2_{@media_serie*}:
+    seasonNumber: "<numberBetween(1, 10)>"
+    serieId: "<current()>"
+  season_3_{@media_serie*}:
+    seasonNumber: "<numberBetween(1, 10)>"
+    serieId: "<current()>"
 
 App\Entity\Episode:
-    episode_{1..500}:
-        title: "<sentence()>"
-        duration: "<numberBetween(45, 90)>"
-        releaseDate: "<dateTimeBetween('-1 week', '+1 week')>"
-        seasonId: "@season_*"
+  episode_{1..500}:
+    title: "<sentence()>"
+    duration: "<numberBetween(45, 90)>"
+    releaseDate: "<dateTimeBetween('-1 week', '+1 week')>"
+    seasonId: "@season_*"
