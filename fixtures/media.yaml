@@ -6,6 +6,7 @@ App\Entity\Media:
     releaseDate: "<datetime()>"
     coverImage: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
     categories: ["@category_<randomElement(['adventure', 'comedy', 'action'])>"]
+    languages: ["@lang_<randomElement(['fr', 'en', 'es'])>"]
 
 App\Entity\Movie:
   media_movie_{1..50} (extends media):
