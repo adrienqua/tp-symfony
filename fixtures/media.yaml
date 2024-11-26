@@ -1,33 +1,33 @@
 App\Entity\Media:
-  media (template):
-    title: <sentence(5)> # Generates a random title with 3 words
-    shortDescription: "short description current" # Generates a short description with 6 words
-    longDescription: <paragraph(3)> # Generates a longer description with 3 sentences
-    releaseDate: <dateTimeBetween('-10 years', 'now')> # Random release date within the last 10 years
-    coverImage: "https://picsum.photos/300/400?random=1" # Random image
-    categories:
-      - "@category_action"
-      - "@category_adventure"
-    languages:
-      - "@lang_fr"
-      - "@lang_en"
+    media (template):
+        title: "Media <current()>"
+        shortDescription: "short description"
+        longDescription: "<realText()>"
+        releaseDate: "<datetime()>"
+        coverImage: "https://picsum.photos/400/550?random=<numberBetween(1, 100)>"
 
 App\Entity\Movie:
-  movie_{1..50} (extends media):
-    title: "Film current - <name()>"
+    media_movie_{1..50} (extends media):
+        title: "Movie <current()>"
 
 App\Entity\Serie:
-  serie_{1..50} (extends media):
-    title: "Serie current - <name()>"
+    media_serie_{1..50} (extends media):
+        title: "Serie <current()>"
 
 App\Entity\Season:
-  season_{1..10}:
-    number: <numberBetween(1, 10)>
-    serie: "@serie*"
+    season_1_{@media_serie*}:
+        seasonNumber: "<numberBetween(1, 10)>"
+        serieId: "<current()>"
+    season_2_{@media_serie*}:
+        seasonNumber: "<numberBetween(1, 10)>"
+        serieId: "<current()>"
+    season_3_{@media_serie*}:
+        seasonNumber: "<numberBetween(1, 10)>"
+        serieId: "<current()>"
 
 App\Entity\Episode:
-  episode_{1..100}:
-    title: "Serie current - <name()>" # Generates a random title with 3 words
-    duration: <numberBetween(30, 120)>
-    releaseDate: <dateTimeBetween('-10 years', 'now')> # Random release date within the last 10 years
-    season: "@season*"
+    episode_{1..500}:
+        title: "<sentence()>"
+        duration: "<numberBetween(45, 90)>"
+        releaseDate: "<dateTimeBetween('-1 week', '+1 week')>"
+        seasonId: "@season_*"

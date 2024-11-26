@@ -36,6 +36,10 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Media $mediaId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userId = null;
+
     public function __construct()
     {
         $this->commentsChilds = new ArrayCollection();
@@ -120,6 +124,18 @@ class Comment
     public function setMediaId(?Media $mediaId): static
     {
         $this->mediaId = $mediaId;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): static
+    {
+        $this->userId = $userId;
 
         return $this;
     }
