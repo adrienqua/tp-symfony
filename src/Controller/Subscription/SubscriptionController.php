@@ -9,10 +9,10 @@ use App\Entity\Subscription;
 
 class SubscriptionController extends AbstractController
 {
-    #[Route(path: '/subscription/{id}', name: 'page_subscription_details')]
-    public function movieDetails(Subscription $subscription): Response
+    #[Route(path: '/subscription', name: 'page_subscription_details')]
+    public function subscription(): Response
     {
-        return $this->render('others/abonnements.html.twig', ['subscription' => $subscription]);
+        return $this->render('others/abonnements.html.twig');
     }
 
 }

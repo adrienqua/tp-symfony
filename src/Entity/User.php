@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +30,8 @@ class User
     private ?UserAccountStatusEnum $accountStatus = UserAccountStatusEnum::INACTIVE;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
     private ?Subscription $currentSubscriptionId = null;
 
     /**
@@ -321,5 +323,21 @@ class User
         }
 
         return $this;
+    }
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    public function getRoles(): array {
+        return $this->roles;
+    }
+    public function eraseCredentials(): void {
+        
+    }
+
+    public function getUserCredentials() {
+        return $this->getEmail();
     }
 }
