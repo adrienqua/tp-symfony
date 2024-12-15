@@ -14,13 +14,13 @@ class AdminController extends AbstractController
         return $this->render('admin/admin.html.twig');
     }
 
-    #[Route(path: '/admin/films', name: 'page_admin_films')]
+    #[Route(path: '/admin/movies', name: 'page_admin_movies')]
     public function films(): Response
     {
         return $this->render('admin/admin_films.html.twig');
     }
 
-    #[Route(path: '/admin/add-film', name: 'page_admin_add_film')]
+    #[Route(path: '/admin/add-movie', name: 'page_admin_add_movie')]
     public function addFilm(): Response
     {
         return $this->render('admin/admin_add_film.html.twig');

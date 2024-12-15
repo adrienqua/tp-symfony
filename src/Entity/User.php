@@ -72,6 +72,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'userId')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Upload>
+     */
+    #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'uploadedBy')]
+    private Collection $uploads;
+
     public function __construct()
     {
         $this->subscriptionHistories = new ArrayCollection();
@@ -80,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->playlists = new ArrayCollection();
         $this->playlistMedia = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->uploads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -341,5 +348,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string {
         return $this->email;
+    }
+
+    /**
+     * @return Collection<int, Upload>
+     */
+    public function getUploads(): Collection
+    {
+        return $this->uploads;
+    }
+
+    public function addUpload(Upload $upload): static
+    {
+        if (!$this->uploads->contains($upload)) {
+            $this->uploads->add($upload);
+            $upload->setUploadedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpload(Upload $upload): static
+    {
+        if ($this->uploads->removeElement($upload)) {
+            // set the owning side to null (unless already changed)
+            if ($upload->getUploadedBy() === $this) {
+                $upload->setUploadedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
