@@ -167,8 +167,9 @@
 						<span class="font-bold text-red-600">Équipe</span>
 						du film</h2>
 					<ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
+					{% for actor in movie.staff %}
 						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
+					{% endfor %}
 					</ul>
 				</div>
 				<div class="max-w-3xl mx-auto mt-9">
@@ -176,12 +177,9 @@
 						<span class="font-bold text-red-600">Casting</span>
 					</h2>
 					<ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
+					{% for actor in movie.casting %}
 						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
-						{% include 'ui/casting_card.html.twig' %}
+					{% endfor %}
 					</ul>
 				</div>
 				<div class="max-w-3xl mx-auto mt-9">
