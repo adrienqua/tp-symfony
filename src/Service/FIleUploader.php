@@ -15,7 +15,7 @@ class FileUploader {
         private LoggerInterface  $logger,
     ) {
     }
-    
+     
     public function upload(UploadedFile $file, $folder = '/uploads'): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
