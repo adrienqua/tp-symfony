@@ -78,6 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'uploadedBy')]
     private Collection $uploads;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $plainPassword;
+
     public function __construct()
     {
         $this->subscriptionHistories = new ArrayCollection();
@@ -376,6 +379,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $upload->setUploadedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
