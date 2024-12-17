@@ -21,10 +21,10 @@ class SubscriptionHistory
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'subscriptionHistories')]
-    private ?User $userId = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'subscriptionHistories')]
-    private ?Subscription $subcriptionId = null;
+    private ?Subscription $subcription = null;
 
     public function getId(): ?int
     {
@@ -55,26 +55,26 @@ class SubscriptionHistory
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getSubcriptionId(): ?Subscription
+    public function getSubcription(): ?Subscription
     {
-        return $this->subcriptionId;
+        return $this->subcription;
     }
 
-    public function setSubcriptionId(?Subscription $subcriptionId): static
+    public function setSubcription(?Subscription $subcription): static
     {
-        $this->subcriptionId = $subcriptionId;
+        $this->subcription = $subcription;
 
         return $this;
     }

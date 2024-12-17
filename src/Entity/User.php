@@ -34,24 +34,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\Column(type: 'json')]
     private array $roles = [];
-    private ?Subscription $currentSubscriptionId = null;
+    private ?Subscription $currentSubscription = null;
 
     /**
      * @var Collection<int, SubscriptionHistory>
      */
-    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'userId')]
+    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'user')]
     private Collection $subscriptionHistories;
 
     /**
      * @var Collection<int, PlaylistSubscription>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'userId')]
+    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'user')]
     private Collection $playlistSubscriptions;
 
     /**
      * @var Collection<int, WatchHistory>
      */
-    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'userId')]
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'user')]
     private Collection $watchHistories;
 
     /**
@@ -69,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'userId')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
     private Collection $comments;
 
     /**
@@ -142,14 +142,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCurrentSubscriptionId(): ?Subscription
+    public function getCurrentSubscription(): ?Subscription
     {
-        return $this->currentSubscriptionId;
+        return $this->currentSubscription;
     }
 
-    public function setCurrentSubscriptionId(?Subscription $currentSubscriptionId): static
+    public function setCurrentSubscription(?Subscription $currentSubscription): static
     {
-        $this->currentSubscriptionId = $currentSubscriptionId;
+        $this->currentSubscription = $currentSubscription;
 
         return $this;
     }
@@ -166,7 +166,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->subscriptionHistories->contains($subscriptionHistory)) {
             $this->subscriptionHistories->add($subscriptionHistory);
-            $subscriptionHistory->setUserId($this);
+            $subscriptionHistory->setUser($this);
         }
 
         return $this;
@@ -176,8 +176,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->subscriptionHistories->removeElement($subscriptionHistory)) {
             // set the owning side to null (unless already changed)
-            if ($subscriptionHistory->getUserId() === $this) {
-                $subscriptionHistory->setUserId(null);
+            if ($subscriptionHistory->getUser() === $this) {
+                $subscriptionHistory->setUser(null);
             }
         }
 
@@ -196,7 +196,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->playlistSubscriptions->contains($playlistSubscription)) {
             $this->playlistSubscriptions->add($playlistSubscription);
-            $playlistSubscription->setUserId($this);
+            $playlistSubscription->setUser($this);
         }
 
         return $this;
@@ -206,8 +206,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->playlistSubscriptions->removeElement($playlistSubscription)) {
             // set the owning side to null (unless already changed)
-            if ($playlistSubscription->getUserId() === $this) {
-                $playlistSubscription->setUserId(null);
+            if ($playlistSubscription->getUser() === $this) {
+                $playlistSubscription->setUser(null);
             }
         }
 
@@ -226,7 +226,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->watchHistories->contains($watchHistory)) {
             $this->watchHistories->add($watchHistory);
-            $watchHistory->setUserId($this);
+            $watchHistory->setUser($this);
         }
 
         return $this;
@@ -236,8 +236,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->watchHistories->removeElement($watchHistory)) {
             // set the owning side to null (unless already changed)
-            if ($watchHistory->getUserId() === $this) {
-                $watchHistory->setUserId(null);
+            if ($watchHistory->getUser() === $this) {
+                $watchHistory->setUser(null);
             }
         }
 
@@ -316,7 +316,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserId($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -326,8 +326,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserId() === $this) {
-                $comment->setUserId(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

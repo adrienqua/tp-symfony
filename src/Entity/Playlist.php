@@ -28,13 +28,13 @@ class Playlist
     /**
      * @var Collection<int, PlaylistMedia>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'playlistId')]
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'playlist')]
     private Collection $medias;
 
     /**
      * @var Collection<int, PlaylistSubscription>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'playlistId')]
+    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'playlist')]
     private Collection $playlistSubscriptions;
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
@@ -99,7 +99,7 @@ class Playlist
     {
         if (!$this->medias->contains($media)) {
             $this->medias->add($media);
-            $media->setPlaylistId($this);
+            $media->setPlaylist($this);
         }
 
         return $this;
@@ -109,8 +109,8 @@ class Playlist
     {
         if ($this->medias->removeElement($media)) {
             // set the owning side to null (unless already changed)
-            if ($media->getPlaylistId() === $this) {
-                $media->setPlaylistId(null);
+            if ($media->getPlaylist() === $this) {
+                $media->setPlaylist(null);
             }
         }
 
@@ -165,7 +165,7 @@ class Playlist
         $result = [];
 
         foreach ($this->medias as $playlistMedia) {
-            $media = $playlistMedia->getMediaId();
+            $media = $playlistMedia->getMedia();
 
             if ($media instanceof Movie) {
                 $result[] = $media;
@@ -180,7 +180,7 @@ class Playlist
         $result = [];
 
         foreach ($this->medias as $playlistMedia) {
-            $media = $playlistMedia->getMediaId();
+            $media = $playlistMedia->getMedia();
 
             if ($media instanceof Serie) {
                 $result[] = $media;

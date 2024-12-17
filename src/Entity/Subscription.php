@@ -28,13 +28,13 @@ class Subscription
     /**
      * @var Collection<int, User>
      */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'currentSubscriptionId')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'currentSubscription')]
     private Collection $users;
 
     /**
      * @var Collection<int, SubscriptionHistory>
      */
-    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'subcriptionId')]
+    #[ORM\OneToMany(targetEntity: SubscriptionHistory::class, mappedBy: 'subcription')]
     private Collection $subscriptionHistories;
 
     public function __construct()
@@ -96,7 +96,7 @@ class Subscription
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setCurrentSubscriptionId($this);
+            $user->setCurrentSubscription($this);
         }
 
         return $this;
@@ -106,8 +106,8 @@ class Subscription
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCurrentSubscriptionId() === $this) {
-                $user->setCurrentSubscriptionId(null);
+            if ($user->getCurrentSubscription() === $this) {
+                $user->setCurrentSubscription(null);
             }
         }
 
@@ -126,7 +126,7 @@ class Subscription
     {
         if (!$this->subscriptionHistories->contains($subscriptionHistory)) {
             $this->subscriptionHistories->add($subscriptionHistory);
-            $subscriptionHistory->setSubcriptionId($this);
+            $subscriptionHistory->setSubcription($this);
         }
 
         return $this;
@@ -136,8 +136,8 @@ class Subscription
     {
         if ($this->subscriptionHistories->removeElement($subscriptionHistory)) {
             // set the owning side to null (unless already changed)
-            if ($subscriptionHistory->getSubcriptionId() === $this) {
-                $subscriptionHistory->setSubcriptionId(null);
+            if ($subscriptionHistory->getSubcription() === $this) {
+                $subscriptionHistory->setSubcription(null);
             }
         }
 

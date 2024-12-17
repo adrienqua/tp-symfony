@@ -50,13 +50,13 @@ class Media
     /**
      * @var Collection<int, PlaylistMedia>
      */
-    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'mediaId')]
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'media')]
     private Collection $playlists;
 
     /**
      * @var Collection<int, WatchHistory>
      */
-    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'mediaId')]
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'media')]
     private Collection $watchHistories;
 
     /**
@@ -68,7 +68,7 @@ class Media
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'mediaId')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'media')]
     private Collection $comments;
 
     public function __construct()
@@ -205,7 +205,7 @@ class Media
     {
         if (!$this->playlists->contains($playlist)) {
             $this->playlists->add($playlist);
-            $playlist->setMediaId($this);
+            $playlist->setMedia($this);
         }
 
         return $this;
@@ -215,8 +215,8 @@ class Media
     {
         if ($this->playlists->removeElement($playlist)) {
             // set the owning side to null (unless already changed)
-            if ($playlist->getMediaId() === $this) {
-                $playlist->setMediaId(null);
+            if ($playlist->getMedia() === $this) {
+                $playlist->setMedia(null);
             }
         }
 

@@ -24,21 +24,21 @@ class Comment
     private ?CommentStatusEnum $status = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'commentsChilds')]
-    private ?self $parentCommentId = null;
+    private ?self $parentComment = null;
 
     /**
      * @var Collection<int, self>
      */
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentCommentId')]
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parentComment')]
     private Collection $commentsChilds;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Media $mediaId = null;
+    private ?Media $media = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $userId = null;
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -74,14 +74,14 @@ class Comment
         return $this;
     }
 
-    public function getParentCommentId(): ?self
+    public function getParentComment(): ?self
     {
-        return $this->parentCommentId;
+        return $this->parentComment;
     }
 
-    public function setParentCommentId(?self $parentCommentId): static
+    public function setParentComment(?self $parentComment): static
     {
-        $this->parentCommentId = $parentCommentId;
+        $this->parentComment = $parentComment;
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Comment
     {
         if (!$this->commentsChilds->contains($commentsChilds)) {
             $this->commentsChilds->add($commentsChilds);
-            $commentsChilds->setParentCommentId($this);
+            $commentsChilds->setParentComment($this);
         }
 
         return $this;
@@ -108,34 +108,34 @@ class Comment
     {
         if ($this->commentsChilds->removeElement($commentsChilds)) {
             // set the owning side to null (unless already changed)
-            if ($commentsChilds->getParentCommentId() === $this) {
-                $commentsChilds->setParentCommentId(null);
+            if ($commentsChilds->getParentComment() === $this) {
+                $commentsChilds->setParentComment(null);
             }
         }
 
         return $this;
     }
 
-    public function getMediaId(): ?Media
+    public function getMedia(): ?Media
     {
-        return $this->mediaId;
+        return $this->media;
     }
 
-    public function setMediaId(?Media $mediaId): static
+    public function setMedia(?Media $media): static
     {
-        $this->mediaId = $mediaId;
+        $this->media = $media;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }

@@ -167,9 +167,9 @@
 						<span class="font-bold text-red-600">Équipe</span>
 						du film</h2>
 					<ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
-					{% for actor in movie.staff %}
-						{% include 'ui/casting_card.html.twig' %}
-					{% endfor %}
+						{% for actor in movie.staff %}
+							{% include 'ui/casting_card.html.twig' %}
+						{% endfor %}
 					</ul>
 				</div>
 				<div class="max-w-3xl mx-auto mt-9">
@@ -177,9 +177,9 @@
 						<span class="font-bold text-red-600">Casting</span>
 					</h2>
 					<ul class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-5">
-					{% for actor in movie.casting %}
-						{% include 'ui/casting_card.html.twig' %}
-					{% endfor %}
+						{% for actor in movie.casting %}
+							{% include 'ui/casting_card.html.twig' %}
+						{% endfor %}
 					</ul>
 				</div>
 				<div class="max-w-3xl mx-auto mt-9">
@@ -203,7 +203,7 @@
 									<div class="flex items-center">
 										<img src="https://random.imagecdn.app/100/100?a" class="w-10 h-10 rounded-full" alt="">
 										<div class="ml-4 w-full">
-											<span class="font-medium">{{comment.userId.username}}</span>
+											<span class="font-medium">{{comment.user.username}}</span>
 											<span class="text-xs text-gray-500 flex items-center justify-between w-full">
 												<span>Il y a 2 jours</span>
 												<span></span>
