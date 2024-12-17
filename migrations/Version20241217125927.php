@@ -19,7 +19,6 @@ final class Version20241217125927 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE subscription_history DROP FOREIGN KEY FK_54AF90D09D86650F');
         $this->addSql('DROP INDEX IDX_54AF90D09D86650F ON subscription_history');
         $this->addSql('ALTER TABLE subscription_history CHANGE user_id_id user_id INT DEFAULT NULL');
@@ -29,7 +28,6 @@ final class Version20241217125927 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE subscription_history DROP FOREIGN KEY FK_54AF90D0A76ED395');
         $this->addSql('DROP INDEX IDX_54AF90D0A76ED395 ON subscription_history');
         $this->addSql('ALTER TABLE subscription_history CHANGE user_id user_id_id INT DEFAULT NULL');

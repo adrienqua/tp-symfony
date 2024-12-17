@@ -19,7 +19,6 @@ final class Version20241217125524 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE playlist_subscription DROP FOREIGN KEY FK_832940C9D86650F');
         $this->addSql('DROP INDEX IDX_832940C9D86650F ON playlist_subscription');
         $this->addSql('ALTER TABLE playlist_subscription CHANGE user_id_id user_id INT DEFAULT NULL');
@@ -29,7 +28,6 @@ final class Version20241217125524 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE playlist_subscription DROP FOREIGN KEY FK_832940CA76ED395');
         $this->addSql('DROP INDEX IDX_832940CA76ED395 ON playlist_subscription');
         $this->addSql('ALTER TABLE playlist_subscription CHANGE user_id user_id_id INT DEFAULT NULL');

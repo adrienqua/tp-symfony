@@ -19,7 +19,6 @@ final class Version20241217124730 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE episode DROP FOREIGN KEY FK_DDAA1CDA68756988');
         $this->addSql('DROP INDEX IDX_DDAA1CDA68756988 ON episode');
         $this->addSql('ALTER TABLE episode CHANGE season_id_id season_id INT DEFAULT NULL');
@@ -43,7 +42,6 @@ final class Version20241217124730 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE watch_history DROP FOREIGN KEY FK_DE44EFD8A76ED395');
         $this->addSql('ALTER TABLE watch_history DROP FOREIGN KEY FK_DE44EFD8EA9FDD75');
         $this->addSql('DROP INDEX IDX_DE44EFD8A76ED395 ON watch_history');

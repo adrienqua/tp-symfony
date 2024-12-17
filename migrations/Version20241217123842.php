@@ -19,7 +19,6 @@ final class Version20241217123842 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C605D5AE6');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C9D86650F');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CA586534');
@@ -37,7 +36,6 @@ final class Version20241217123842 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CBF2AF943');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CEA9FDD75');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CA76ED395');
