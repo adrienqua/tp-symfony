@@ -12,8 +12,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function index(MediaRepository $mediaRepository): Response
     {
-        $featured = $mediaRepository->findPopular(5);
+        $featuredMovies = $mediaRepository->findPopular(5);
 
-        return $this->render('index.html.twig');
+        return $this->render('index.html.twig', [
+            'featuredMovies' => $featuredMovies,
+        ]);
     }
 }

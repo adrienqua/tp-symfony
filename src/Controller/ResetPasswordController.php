@@ -48,7 +48,7 @@ class ResetPasswordController extends AbstractController
             );
         }
 
-        return $this->render('reset_password/request.html.twig', [
+        return $this->render('auth/forgot.html.twig', [
             'requestForm' => $form,
         ]);
     }
@@ -124,7 +124,7 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('reset_password/reset.html.twig', [
+        return $this->render('auth/reset.html.twig', [
             'resetForm' => $form,
         ]);
     }
@@ -160,7 +160,7 @@ class ResetPasswordController extends AbstractController
             ->from(new Address('noreply@streemi.com', 'Streemi'))
             ->to((string) $user->getEmail())
             ->subject('Your password reset request')
-            ->htmlTemplate('reset_password/email.html.twig')
+            ->htmlTemplate('email/reset.html.twig')
             ->context([
                 'resetToken' => $resetToken,
             ])
