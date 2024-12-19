@@ -7,7 +7,11 @@ use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 
+#[AsEntityListener(event: Events::prePersist, entity: User::class)]
+#[AsEntityListener(event: Events::preUpdate, entity: User::class)]
 class HashPasswordListener
 {
     private $passwordHasher;

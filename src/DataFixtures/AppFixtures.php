@@ -112,7 +112,7 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setEmail(email: $faker->email);
         $user->setUsername(username: $faker->userName);
-        $user->setPassword(password: $faker->password);
+        $user->setPlainPassword(plainPassword: $faker->password);
         $manager->persist(object: $user);
 
         return $user;
