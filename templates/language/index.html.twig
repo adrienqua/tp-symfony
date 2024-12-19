@@ -1,37 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Language index{% endblock %}
+{% block title %}Langues{% endblock %}
 
 {% block body %}
-    <h1>Language index</h1>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Langues</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Code</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for language in languages %}
-            <tr>
-                <td>{{ language.id }}</td>
-                <td>{{ language.name }}</td>
-                <td>{{ language.code }}</td>
-                <td>
-                    <a href="{{ path('app_language_show', {'id': language.id}) }}">show</a>
-                    <a href="{{ path('app_language_edit', {'id': language.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse border border-gray-200 rounded-lg shadow-md">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 border-b text-left text-sm font-medium text-gray-700">Id</th>
+                        <th class="px-4 py-2 border-b text-left text-sm font-medium text-gray-700">Nom</th>
+                        <th class="px-4 py-2 border-b text-left text-sm font-medium text-gray-700">Code</th>
+                        <th class="px-4 py-2 border-b text-left text-sm font-medium text-gray-700">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for language in languages %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2 border-b text-sm text-gray-600">{{ language.id }}</td>
+                        <td class="px-4 py-2 border-b text-sm text-gray-600">{{ language.name }}</td>
+                        <td class="px-4 py-2 border-b text-sm text-gray-600">{{ language.code }}</td>
+                        <td class="px-4 py-2 border-b text-sm text-gray-600">
+                            <a href="{{ path('app_language_show', {'id': language.id}) }}" class="text-indigo-600 hover:text-indigo-800">Voir</a>
+                            <a href="{{ path('app_language_edit', {'id': language.id}) }}" class="ml-4 text-indigo-600 hover:text-indigo-800">Editer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-4 py-2 text-center text-sm text-gray-600">Pas de résultats</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_language_new') }}">Create new</a>
+        <div class="mt-6">
+            <a href="{{ path('app_language_new') }}" class="inline-block bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded shadow-md hover:bg-indigo-700">Créer</a>
+        </div>
+    </div>
 {% endblock %}
+
