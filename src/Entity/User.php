@@ -78,7 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'uploadedBy')]
     private Collection $uploads;
 
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     public function __construct()
     {

@@ -2,62 +2,41 @@
 
 namespace App\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use App\Entity\User;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\ORM\Event\PrePersistEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Events;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsEntityListener(event: Events::prePersist, entity: User::class)]
 #[AsEntityListener(event: Events::preUpdate, entity: User::class)]
-class HashPasswordListener
+readonly class HashPasswordListener
 {
-    private $passwordHasher;
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher
+    )
+    {}
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function prePersist(User $user): void
     {
-        $this->passwordHasher = $passwordHasher;
+        $this->encodePassword($user);
     }
 
-    public function prePersist(PrePersistEventArgs $args): void
+    public function preUpdate(User $user): void
     {
-        $entity = $args->getObject();
+        $this->encodePassword($user);
+    }
 
-        if (!$entity instanceof User) {
+    private function encodePassword(User $user): void
+    {
+        $plainPassword = $user->getPlainPassword();
+
+        if (!$plainPassword) {
             return;
         }
 
-        $this->hashPassword($entity);
-    }
+        $encodedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
 
-    public function preUpdate(PreUpdateEventArgs $args): void
-    {
-        $entity = $args->getObject();
-
-        if (!$entity instanceof User) {
-            return;
-        }
-
-        $this->hashPassword($entity);
-
-        // Tell Doctrine to recompute the changes to the entity
-        $em = $args->getObjectManager();
-        $classMetadata = $em->getClassMetadata(get_class($entity));
-        $em->getUnitOfWork()->recomputeSingleEntityChangeSet($classMetadata, $entity);
-    }
-
-    private function hashPassword(User $user): void
-    {
-        if ($user->getPlainPassword() !== "") {
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            );
-
-            $user->setPassword($hashedPassword);
-            $user->setPlainPassword("");
-        }
+        $user->setPassword($encodedPassword);
+        $user->eraseCredentials();
     }
 }
